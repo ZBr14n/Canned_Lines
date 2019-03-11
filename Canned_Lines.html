@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <head>
+        <title></title>
+
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    </head>
+
+
+    <body>
+        <div id="root"></div>
+
+        <script type=text/babel>
+
+        let resize_textArea = {
+          resize:"none"
+        };
+        let margin_textArea = {
+          marginRight:"100px"
+        };
+
+        class App extends React.Component {
+            state = {
+              arr: [],
+            };
+
+            //if user refreshes the page, re-populate the localStorage data.
+            refresh = () => {
+              if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+
+                let elements = [];
+                for(let i=0; i < localStorage.length; i++){
+                   elements.push(<textarea key={i} rows="5" cols="50" style={resize_textArea} value={localStorage.getItem(i)||""} readOnly> </textarea>);
+                }
+
+                return elements;
+              }
+            }
+
+            refreshPage = () => {
+              window.location.reload();
+            }
+
+            createUI = () => {
+              return this.state.arr.map((el,i) =>
+              <textarea key={i} rows="5" cols="50" value={el||""} style={resize_textArea} onChange={this.handle_change(i)} > </textarea>
+              )
+
+            }
+
+            //the use of currying helps to pass params to event handlers while using property initializer syntax
+            handle_change = (i) => (e) => {
+                let arr = [...this.state.arr];
+                arr[i] = event.target.value;
+                this.setState({arr});
+
+                localStorage.setItem(i, arr[i]); //record key/value pair into localStorage to the browser.
+
+            }
+
+            addclick = () => {
+                  this.setState(prevState => ({
+                    arr: [...prevState.arr,""]
+                  }))
+            }
+
+
+
+            render() {
+                return (
+                  <div>
+
+                      {this.refresh()}       <br /> <br />
+                      <button onClick={this.addclick} style={margin_textArea}> Add </button>
+                      <button onClick={this.refreshPage} > Save </button>  <br /> <br />
+                      {this.createUI()}
+
+
+
+                  </div>
+                )
+            }
+        }
+
+
+
+        ReactDOM.render(
+            <div>
+              <App />
+
+            </div>,
+            document.getElementById('root')
+        );
+
+
+        </script>
+    </body>
+</html>
