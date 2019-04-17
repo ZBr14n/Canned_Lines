@@ -4,5 +4,5 @@ I remembered how difficult it was to make something functional in this app using
 This is one of my favorite program that I made, which I use in my day-to-day work for note taking. I went so far as to deploy it via GitHub Pages here:
 https://zbr14n.github.io/Canned_Lines/Canned_Lines.html
 
-
-![alt-text](C:\Users\Brian\Desktop\Canned_Lines.gif)
+You can watch out it works here:
+https://media.giphy.com/media/WrJ7PtGedZWbQ4LEEF/source.gif
